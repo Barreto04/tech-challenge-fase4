@@ -1,0 +1,11 @@
+node_modules/
+coverage/
+.env
+.env.local
+.expo/
+dist/
+web-build/
+.mongodb-binaries/
+*.log
+.DS_Store
+Thumbs.db

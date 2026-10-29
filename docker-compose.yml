@@ -1,0 +1,29 @@
+services:
+  mongodb:
+    image: mongo:6
+    container_name: blog-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    restart: unless-stopped
+
+  api:
+    build: ./backend
+    container_name: blog-api
+    ports:
+      - "3001:3000"
+    environment:
+      - PORT=3000
+      - MONGODB_URI=mongodb://mongodb:27017/blogdb
+      - NODE_ENV=production
+      - JWT_SECRET=${JWT_SECRET:-troque-este-segredo-em-producao}
+      - JWT_EXPIRES_IN=7d
+      - SEED_PROFESSOR_EMAIL=${SEED_PROFESSOR_EMAIL:-professor@postech.com}
+      - SEED_PROFESSOR_SENHA=${SEED_PROFESSOR_SENHA:-postech2026}
+    depends_on:
+      - mongodb
+    restart: unless-stopped
+
+volumes:
+  mongodb_data:
